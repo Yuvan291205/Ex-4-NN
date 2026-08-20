@@ -1,6 +1,6 @@
 
-<H3>ENTER YOUR NAME</H3>
-<H3>ENTER YOUR REGISTER NO.</H3>
+<H3>Yuvan M</H3>
+<H3>212223240188</H3>
 <H3>EX. NO.4</H3>
 <H3>DATE:</H3>
 <H1 ALIGN =CENTER>Implementation of MLP with Backpropagation for Multiclassification</H1>
@@ -116,11 +116,68 @@ Normalize our dataset.
 
 <H3>Program:</H3> 
 
-Insert your code here
+```
+
+
+
+import pandas as pd
+import sklearn
+from sklearn import preprocessing
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import classification_report, confusion_matrix
+
+# Change the data source to the new CSV file
+filepath = '/content/Multiclass Diabetes Dataset.csv'
+
+# Load the dataset. Let pandas infer column names.
+irisdata = pd.read_csv(filepath)
+display(irisdata.head())
+
+# Assuming the last column is the target variable (y) and the rest are features (X)
+X = irisdata.iloc[:, :-1]
+y = irisdata.iloc[:, -1]
+
+# Display the first few rows of features and target
+display(X.head())
+display(y.head())
+
+# Display unique values of the target variable
+print("Unique values in target variable:")
+print(y.unique())
+
+# Encode the target variable if it's categorical
+le = preprocessing.LabelEncoder()
+y = le.fit_transform(y)
+
+# Display the first few encoded target values
+print("First few encoded target values:")
+display(pd.Series(y).head())
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.20, random_state=42)
+
+scaler = StandardScaler()
+scaler.fit(X_train)
+X_train = scaler.transform(X_train)
+X_test = scaler.transform(X_test)
+
+# Adjusted hidden_layer_sizes, assuming 3 output classes based on Iris dataset
+# You might need to adjust this based on the actual number of classes in the new dataset
+mlp = MLPClassifier(hidden_layer_sizes=(10, 10, 10), max_iter=1000, random_state=42)
+mlp.fit(X_train, y_train)
+predictions = mlp.predict(X_test)
+print(predictions)
+
+print(confusion_matrix(y_test,predictions))
+print(classification_report(y_test,predictions))
+
+```
 
 <H3>Output:</H3>
+<img width="686" height="456" alt="image" src="https://github.com/user-attachments/assets/9a8e9baf-926e-401b-b06b-4e85afab8069" />
+<img width="671" height="456" alt="image" src="https://github.com/user-attachments/assets/23be920e-e035-4218-b083-1672c4156470" />
 
-Show your results here
 
 <H3>Result:</H3>
 Thus, MLP is implemented for multi-classification using python.
